@@ -1,0 +1,13 @@
+body {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+textarea {
+	min-height: 300px;
+	width: 80%;
+}
+
+#result {
+	margin: 30px 0;
+}
