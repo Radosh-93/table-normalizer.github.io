@@ -11,7 +11,8 @@ const refreshBlock = document.getElementById("refresh-block");
 const refreshBtn = document.getElementById("refresh-btn");
 const refreshField = document.getElementById("refresh-field");
 const downloadBtn = document.getElementById("download-btn");
-let dictionaryLocal = localStorage.getItem(storageName) || dictionary;
+let dictionaryLocal =
+	JSON.parse(localStorage.getItem(storageName)) || dictionary;
 Object.size = function (obj) {
 	var size = 0,
 		key;
@@ -64,7 +65,8 @@ buttonSubmit.addEventListener("click", (e) => {
 
 buttonTranslate.addEventListener("click", (e) => {
 	e.preventDefault();
-	dictionaryLocal = localStorage.getItem(storageName);
+	dictionaryLocal = JSON.parse(localStorage.getItem(storageName));
+	console.log(dictionaryLocal);
 	let correctTable = changeValueOfTable(outputTable.value, translateToUA);
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
@@ -185,10 +187,11 @@ function translateToUA(text) {
 	const arrWords = text.split(" ");
 	const translateArr = arrWords.map((word) => {
 		try {
+			if (/\d/g.test(word)) return word;
 			const lowWord = word.toLowerCase();
 			const [all, rWord, wSymbol = ""] = lowWord.match(
-				/([\wА-ЯЁа-яё]+)([,.]*)?/
-			); //?
+				/([\wА-ЯЁа-яё]+-?[\wА-ЯЁа-яё]*)([,.]*)?/
+			);
 			let translatedWord = dictionaryLocal[rWord];
 			if (!translatedWord) return word;
 
