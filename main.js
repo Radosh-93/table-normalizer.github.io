@@ -11,7 +11,7 @@ const refreshBlock = document.getElementById("refresh-block");
 const refreshBtn = document.getElementById("refresh-btn");
 const refreshField = document.getElementById("refresh-field");
 const downloadBtn = document.getElementById("download-btn");
-
+let dictionaryLocal = localStorage.getItem(storageName) || dictionary;
 Object.size = function (obj) {
 	var size = 0,
 		key;
@@ -64,6 +64,7 @@ buttonSubmit.addEventListener("click", (e) => {
 
 buttonTranslate.addEventListener("click", (e) => {
 	e.preventDefault();
+	dictionaryLocal = localStorage.getItem(storageName);
 	let correctTable = changeValueOfTable(outputTable.value, translateToUA);
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
@@ -139,7 +140,6 @@ function deleteTrash(text) {
 function changeValueOfTable(table, callback) {
 	const parser = new DOMParser();
 	const docWithTable = parser.parseFromString(table, "text/html");
-	const typeTable = typeof table;
 	const rows = docWithTable.querySelectorAll("tr");
 	rows.forEach((row) => {
 		const [tdFirst, tdSecond] = row.children;
@@ -189,7 +189,7 @@ function translateToUA(text) {
 			const [all, rWord, wSymbol = ""] = lowWord.match(
 				/([\wА-ЯЁа-яё]+)([,.]*)?/
 			); //?
-			let translatedWord = dictionary[rWord];
+			let translatedWord = dictionaryLocal[rWord];
 			if (!translatedWord) return word;
 
 			translatedWord += wSymbol;
