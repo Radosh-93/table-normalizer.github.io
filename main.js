@@ -6,7 +6,7 @@ const outputTable = document.getElementById("table-output");
 buttonSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
 	let correctTable = deleteTrash(inputTable.value);
-	correctTable = upperCaseFirstLetter(correctTable);
+	correctTable = changeCaseFirstLetter(correctTable);
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
 	copyText(correctTable);
@@ -36,17 +36,28 @@ function deleteTrash(text) {
 	return newText;
 }
 
-function upperCaseFirstLetter(table) {
+function changeCaseFirstLetter(table) {
 	const parser = new DOMParser();
 	const docWithTable = parser.parseFromString(table, "text/html");
 	const rows = docWithTable.querySelectorAll("tr");
 	rows.forEach((row) => {
-		const tdFirst = row.children[0];
-		let valueTd = tdFirst.innerText.trim();
-		valueTd = valueTd[0].toUpperCase() + valueTd.slice(1);
-		tdFirst.innerHTML = valueTd;
+		const [tdFirst, tdSecond] = row.children;
+		//First cell of row
+		let valueTdFirst = tdFirst.innerText.trim();
+		valueTdFirst = valueTdFirst[0].toUpperCase() + valueTdFirst.slice(1);
+		tdFirst.innerHTML = valueTdFirst;
+		//Second cell of  row
+		let valueTdSecond = tdSecond.innerText.trim();
+		if (
+			valueTdSecond.length > 1 &&
+			valueTdSecond[1]?.toLowerCase() === valueTdSecond[1]
+		) {
+			valueTdSecond = valueTdSecond[0].toLowerCase() + valueTdSecond.slice(1);
+		}
+		tdSecond.innerHTML = valueTdSecond;
 	});
 	table = docWithTable.body.innerHTML;
+
 	return table;
 }
 
