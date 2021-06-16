@@ -51,3 +51,14 @@ button:not(:disabled) {
 	background-color: #157347;
 	border-color: #146c43;
 }
+
+.btn-warning {
+	color: #000;
+	background-color: #ffc107;
+	border-color: #ffc107;
+}
+.btn-warning:hover {
+	color: #000;
+	background-color: #ffca2c;
+	border-color: #ffc720;
+}

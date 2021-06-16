@@ -12,6 +12,7 @@
 		<div class="container">
 			<p>Вхідні дані (код HTML):</p>
 			<textarea
+				class="big"
 				name="table"
 				id="table-input"
 				placeholder="Вставити код таблиці"
@@ -25,10 +26,49 @@
 		</div>
 		<div class="container">
 			<p>Вихідні дані:</p>
-			<textarea name="" id="table-output"></textarea>
+			<textarea name="" id="table-output" class="big"></textarea>
 			<div class="buttons-block">
 				<button id="translate-btn" class="btn btn-success">
 					Українською і скопіювати
+				</button>
+			</div>
+			<form id="add-words-form">
+				<input
+					class="input-field"
+					id="rus-word-field"
+					placeholder="Слово російською"
+					pattern="[А-ЯЁа-яё]+"
+					required
+				/>
+				<input
+					class="input-field"
+					id="ukr-word-field"
+					placeholder="Слово українською"
+					pattern="[А-ЯЇІа-яїі]+"
+					required
+				/>
+				<button type="submit" class="btn btn-warning">Додати в словник</button>
+				<span class="icon-btn" id="show-refresh" title="Оновити словник"
+					><img width="32px" src="./icons/refresh.svg" alt=""
+				/></span>
+				<span class="icon-btn" id="download-btn" title="Завантажити словник"
+					><img width="32px" src="./icons/download.svg" alt=""
+				/></span>
+			</form>
+			<div
+				id="refresh-block"
+				class="refresh-block"
+				hidden="true"
+				style="display: none"
+			>
+				<textarea id="refresh-field" rows="3"></textarea>
+				<span id="refresh-message"></span>
+				<button
+					id="refresh-btn"
+					class="btn btn-warning"
+					style="margin-left: 20px"
+				>
+					Оновити
 				</button>
 			</div>
 		</div>

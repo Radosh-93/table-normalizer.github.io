@@ -1,9 +1,57 @@
 import { dictionary } from "./data.js";
+const storageName = "dictionary";
 const inputTable = document.getElementById("table-input");
 const buttonSubmit = document.getElementById("submit-btn");
 const buttonTranslate = document.getElementById("translate-btn");
 const resultField = document.getElementById("result");
 const outputTable = document.getElementById("table-output");
+const addWordsForm = document.getElementById("add-words-form");
+const showRefresh = document.getElementById("show-refresh");
+const refreshBlock = document.getElementById("refresh-block");
+const refreshBtn = document.getElementById("refresh-btn");
+const refreshField = document.getElementById("refresh-field");
+const downloadBtn = document.getElementById("download-btn");
+
+Object.size = function (obj) {
+	var size = 0,
+		key;
+	if (typeof obj !== "object") return size;
+	for (key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;
+};
+
+window.onload = () => {
+	const objFromLocStorage = JSON.parse(localStorage.getItem(storageName));
+	const isAdd = Object.size(dictionary) > Object.size(objFromLocStorage);
+
+	if (localStorage.getItem(storageName) === null || isAdd) {
+		localStorage.setItem(storageName, JSON.stringify(dictionary));
+		alert("localStorage замінено");
+	}
+	addWordsForm.onsubmit = (e) => {
+		e.preventDefault();
+		const [rus, ukr] = e.target;
+		const rusVal = rus.value.toLowerCase();
+		const urkVal = ukr.value.toLowerCase();
+		console.log(rusVal, urkVal);
+		addToLocalStorage(storageName, rusVal, urkVal);
+		rus.value = "";
+		ukr.value = "";
+	};
+};
+
+function addToLocalStorage(nameStorage, key, value) {
+	let dictionaryObj = JSON.parse(localStorage.getItem(nameStorage));
+	if (dictionaryObj[key]) {
+		alert("Це російське слово вже має бути в базі");
+		return;
+	}
+	dictionaryObj[key] = value;
+	dictionaryObj = JSON.stringify(dictionaryObj);
+	localStorage.setItem(nameStorage, dictionaryObj);
+}
 
 buttonSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
@@ -20,6 +68,48 @@ buttonTranslate.addEventListener("click", (e) => {
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
 	copyText(correctTable);
+});
+
+showRefresh.addEventListener("click", () => {
+	const isHidden = refreshBlock.hidden;
+	console.log("Ishidder" + isHidden);
+	if (isHidden) {
+		refreshBlock.style.display = "flex";
+		refreshBlock.hidden = false;
+	} else {
+		refreshBlock.style.display = "none";
+		refreshBlock.hidden = true;
+	}
+});
+
+refreshBtn.addEventListener("click", () => {
+	try {
+		const valueRefreshField = refreshField.value;
+		if (!valueRefreshField) {
+			throw "Заповнити спочатку поле";
+		}
+		refreshField.style.border = "";
+		const objFromLocStorage = JSON.parse(localStorage.getItem(storageName));
+		const objFromRefreshField = JSON.parse(valueRefreshField);
+		const newObjFromLocal = Object.assign(
+			objFromLocStorage,
+			objFromRefreshField
+		);
+		console.log(Object.assign(newObjFromLocal, dictionary));
+		alert("В консолі");
+		refreshField.value = "";
+	} catch (error) {
+		if ((error.name = "SyntaxError")) {
+			error = "Синтаксичана помилка у введеному рядку";
+		}
+		document.getElementById("refresh-message").innerHTML = error;
+		refreshField.style.border = "2px solid red";
+	}
+});
+
+downloadBtn.addEventListener("click", () => {
+	copyText(localStorage.getItem(storageName));
+	alert("Скопійовано");
 });
 
 function deleteTrash(text) {
