@@ -18,6 +18,16 @@
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
 		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+button:focus:not(:focus-visible) {
+	outline: 0;
+}
+
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled),
+button:not(:disabled) {
+	cursor: pointer;
+}
 
 .btn-primary {
 	color: #fff;
@@ -30,13 +40,14 @@
 	border-color: #0a58ca;
 }
 
-button:focus:not(:focus-visible) {
-	outline: 0;
+.btn-success {
+	color: #fff;
+	background-color: #198754;
+	border-color: #198754;
 }
 
-[type="button"]:not(:disabled),
-[type="reset"]:not(:disabled),
-[type="submit"]:not(:disabled),
-button:not(:disabled) {
-	cursor: pointer;
+.btn-success:hover {
+	color: #fff;
+	background-color: #157347;
+	border-color: #146c43;
 }

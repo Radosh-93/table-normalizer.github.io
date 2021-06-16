@@ -1,12 +1,22 @@
+import { dictionary } from "./data.js";
 const inputTable = document.getElementById("table-input");
 const buttonSubmit = document.getElementById("submit-btn");
+const buttonTranslate = document.getElementById("translate-btn");
 const resultField = document.getElementById("result");
 const outputTable = document.getElementById("table-output");
 
 buttonSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
 	let correctTable = deleteTrash(inputTable.value);
-	correctTable = changeCaseFirstLetter(correctTable);
+	correctTable = changeValueOfTable(correctTable, changeFirstLetter);
+	resultField.innerHTML = correctTable;
+	outputTable.value = correctTable;
+	copyText(correctTable);
+});
+
+buttonTranslate.addEventListener("click", (e) => {
+	e.preventDefault();
+	let correctTable = changeValueOfTable(outputTable.value, translateToUA);
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
 	copyText(correctTable);
@@ -36,26 +46,18 @@ function deleteTrash(text) {
 	return newText;
 }
 
-function changeCaseFirstLetter(table) {
+function changeValueOfTable(table, callback) {
 	const parser = new DOMParser();
 	const docWithTable = parser.parseFromString(table, "text/html");
+	const typeTable = typeof table;
 	const rows = docWithTable.querySelectorAll("tr");
 	rows.forEach((row) => {
 		const [tdFirst, tdSecond] = row.children;
 		//First cell of row
-		let valueTdFirst = tdFirst.innerText.trim();
-		valueTdFirst = valueTdFirst[0].toUpperCase() + valueTdFirst.slice(1);
-		tdFirst.innerHTML = valueTdFirst;
+		tdFirst.innerHTML = callback(tdFirst.innerText.trim(), "upper");
 		//Second cell of  row
 		if (!tdSecond) return;
-		let valueTdSecond = tdSecond?.innerText.trim();
-		if (
-			valueTdSecond?.length > 1 &&
-			valueTdSecond[1]?.toLowerCase() === valueTdSecond[1]
-		) {
-			valueTdSecond = valueTdSecond[0].toLowerCase() + valueTdSecond.slice(1);
-		}
-		tdSecond.innerHTML = valueTdSecond;
+		tdSecond.innerHTML = callback(tdSecond.innerText.trim(), "lower");
 	});
 	table = docWithTable.body.innerHTML;
 
@@ -70,3 +72,51 @@ function copyText(str) {
 	document.execCommand("copy");
 	document.body.removeChild(el);
 }
+
+function changeFirstLetter(text, wordCase) {
+	if (!text) return text;
+	if (
+		wordCase === "lower" &&
+		text.length > 1 &&
+		text[1].toLowerCase() === text[1]
+	) {
+		return text[0].toLowerCase() + text.slice(1);
+	}
+	if (wordCase === "upper") {
+		return text[0].toUpperCase() + text.slice(1);
+	}
+	return text;
+}
+
+function isAbbreviation(text) {
+	return text[1].toUpperCase() === text[1];
+}
+function translateToUA(text) {
+	const arrWords = text.split(" ");
+	const translateArr = arrWords.map((word) => {
+		try {
+			const lowWord = word.toLowerCase();
+			const [all, rWord, wSymbol = ""] = lowWord.match(
+				/([\wА-ЯЁа-яё]+)([,.]*)?/
+			); //?
+			let translatedWord = dictionary[rWord];
+			if (!translatedWord) return word;
+
+			translatedWord += wSymbol;
+			//Check if this capitalize word
+			if (lowWord !== word) {
+				if (isAbbreviation(word)) {
+					return translatedWord?.toUpperCase();
+				}
+				const upperWord =
+					translatedWord?.[0].toUpperCase() + translatedWord?.slice(1);
+				return upperWord;
+			}
+			return translatedWord;
+		} catch (error) {
+			console.log(error);
+		}
+	});
+	return translateArr.join(" ");
+}
+//translateToUA("Some") //?
