@@ -47,9 +47,10 @@ function changeCaseFirstLetter(table) {
 		valueTdFirst = valueTdFirst[0].toUpperCase() + valueTdFirst.slice(1);
 		tdFirst.innerHTML = valueTdFirst;
 		//Second cell of  row
-		let valueTdSecond = tdSecond.innerText.trim();
+		if (!tdSecond) return;
+		let valueTdSecond = tdSecond?.innerText.trim();
 		if (
-			valueTdSecond.length > 1 &&
+			valueTdSecond?.length > 1 &&
 			valueTdSecond[1]?.toLowerCase() === valueTdSecond[1]
 		) {
 			valueTdSecond = valueTdSecond[0].toLowerCase() + valueTdSecond.slice(1);
