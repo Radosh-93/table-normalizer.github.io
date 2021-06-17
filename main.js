@@ -113,7 +113,10 @@ refreshBtn.addEventListener("click", () => {
 			objFromLocStorage,
 			objFromRefreshField
 		);
-		console.log(Object.assign(newObjFromLocal, dictionary));
+		const result = Object.assign(newObjFromLocal, dictionary);
+		copyText(JSON.stringify(result));
+		console.log(result);
+
 		alert("В консолі");
 		refreshField.value = "";
 	} catch (error) {
