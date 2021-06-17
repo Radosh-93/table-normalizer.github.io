@@ -170,7 +170,8 @@ function changeFirstLetter(text, wordCase) {
 	if (
 		wordCase === "lower" &&
 		text.length > 1 &&
-		text[1].toLowerCase() === text[1]
+		text[1].toLowerCase() === text[1] &&
+		text.charCodeAt(0) > 1000
 	) {
 		return text[0].toLowerCase() + text.slice(1);
 	}
