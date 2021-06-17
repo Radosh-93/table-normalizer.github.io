@@ -1,14 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("./bootstrap.css");
+@import url("./draggble.css");
 body {
 	display: grid;
+	column-gap: 40px;
 	grid-template-columns: 1fr 1fr;
 	font-family: "Roboto", sans-serif;
+	padding: 0 40px;
 }
 
 textarea.big {
 	min-height: 300px;
-	width: 80%;
+	width: 100%;
 }
 .input-field {
 	padding: 5px 10px;
@@ -16,6 +19,7 @@ textarea.big {
 }
 #result {
 	margin: 30px 0;
+	position: relative;
 }
 
 #result table {
@@ -43,7 +47,7 @@ textarea.big {
 	margin-top: 20px;
 	padding: 5px;
 	background: #ccc;
-	width: 80%;
+	width: 100%;
 }
 #refresh-field {
 	width: 70%;
@@ -75,4 +79,10 @@ textarea.big {
 	color: #673333;
 	padding: 5px 0 3px 0;
 	margin: 0 0 0 10px;
+}
+
+.copy-table {
+	position: absolute;
+	top: -40px;
+	right: 0;
 }

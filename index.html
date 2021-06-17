@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Table normalize</title>
 		<script src="./main.js" defer type="module"></script>
-		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="style/main.css" />
 		<link rel="shortcut icon" href="./icons/favicon.ico" type="image/x-icon" />
 	</head>
 	<body>
@@ -17,13 +17,66 @@
 				name="table"
 				id="table-input"
 				placeholder="Вставити код таблиці"
-			></textarea>
+			>
+			</textarea>
 			<div class="buttons-block">
 				<button id="submit-btn" class="btn btn-primary">
 					Видалити зайве і скопіювати
 				</button>
 			</div>
-			<div id="result"></div>
+			<div id="result">
+				<table id="table" class="draggable-table">
+					<tbody>
+						<tr>
+							<td>Вага, кг</td>
+							<td>3.66</td>
+						</tr>
+						<tr>
+							<td>Джерело живлення</td>
+							<td>мережеве</td>
+						</tr>
+						<tr>
+							<td>Діаметр диска, мм</td>
+							<td>184</td>
+						</tr>
+						<tr>
+							<td>Діаметр отвору, мм</td>
+							<td>16</td>
+						</tr>
+						<tr>
+							<td>Макс. глибина різу під кутом 45, мм</td>
+							<td>42</td>
+						</tr>
+						<tr>
+							<td>Макс. глибина різу під кутом 90, мм</td>
+							<td>65</td>
+						</tr>
+						<tr>
+							<td>Максимальний кут нахилу, град</td>
+							<td>48</td>
+						</tr>
+						<tr>
+							<td>Регулювання оборотів</td>
+							<td>немає</td>
+						</tr>
+						<tr>
+							<td>Споживана потужність, Вт</td>
+							<td>1350</td>
+						</tr>
+						<tr>
+							<td>Тип пилки</td>
+							<td>циркулярна</td>
+						</tr>
+						<tr>
+							<td>Частота обертання, об/хв</td>
+							<td>5500</td>
+						</tr>
+					</tbody>
+				</table>
+				<button id="copy-button" class="btn btn-warning copy-table">
+					Скопіювати таблицю
+				</button>
+			</div>
 		</div>
 		<div class="container">
 			<p>Вихідні дані:</p>

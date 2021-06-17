@@ -1,4 +1,5 @@
 import { dictionary } from "./data.js";
+import { draggableFn } from "./js/draggable.js";
 const storageName = "dictionary";
 const inputTable = document.getElementById("table-input");
 const buttonSubmit = document.getElementById("submit-btn");
@@ -11,6 +12,8 @@ const refreshBlock = document.getElementById("refresh-block");
 const refreshBtn = document.getElementById("refresh-btn");
 const refreshField = document.getElementById("refresh-field");
 const downloadBtn = document.getElementById("download-btn");
+const copyButton = document.getElementById("copy-button");
+
 let dictionaryLocal =
 	JSON.parse(localStorage.getItem(storageName)) || dictionary;
 Object.size = function (obj) {
@@ -41,6 +44,7 @@ window.onload = () => {
 		rus.value = "";
 		ukr.value = "";
 	};
+	draggableFn();
 };
 
 function addToLocalStorage(nameStorage, key, value) {
@@ -58,6 +62,10 @@ buttonSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
 	let correctTable = deleteTrash(inputTable.value);
 	correctTable = changeValueOfTable(correctTable, changeFirstLetter);
+	correctTable = correctTable.replace(
+		/<table>/,
+		'<table id="table" class="draggable-table">'
+	);
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
 	copyText(correctTable);
@@ -113,6 +121,11 @@ refreshBtn.addEventListener("click", () => {
 downloadBtn.addEventListener("click", () => {
 	copyText(localStorage.getItem(storageName));
 	alert("Скопійовано");
+});
+
+copyButton.addEventListener("click", () => {
+	const table = document.getElementById("table").outerHTML;
+	copyText(table);
 });
 
 function deleteTrash(text) {
