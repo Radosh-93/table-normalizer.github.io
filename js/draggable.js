@@ -2,7 +2,7 @@ export function draggableFn() {
 	"use strict";
 
 	const table = document.getElementById("table");
-	const tbody = table.querySelector("tbody");
+	const tbody = table?.querySelector("tbody");
 
 	var currRow = null,
 		dragElem = null,
