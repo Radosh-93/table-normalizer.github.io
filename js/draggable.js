@@ -1,4 +1,4 @@
-export function draggableFn() {
+export function draggableFn(refreshInput) {
 	"use strict";
 
 	const table = document.getElementById("table");
@@ -52,6 +52,7 @@ export function draggableFn() {
 
 			dragElem = null;
 			mouseDrag = false;
+			refreshInput();
 		});
 	}
 
