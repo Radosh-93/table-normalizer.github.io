@@ -17,9 +17,12 @@ textarea.big {
 	padding: 5px 10px;
 	font-size: 16px;
 }
+
+.result-block {
+	position: relative;
+}
 #result {
 	margin-top: 50px;
-	position: relative;
 }
 
 #result table {

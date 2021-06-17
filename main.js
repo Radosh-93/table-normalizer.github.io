@@ -13,7 +13,6 @@ const refreshBtn = document.getElementById("refresh-btn");
 const refreshField = document.getElementById("refresh-field");
 const downloadBtn = document.getElementById("download-btn");
 const copyButton = document.getElementById("copy-button");
-
 let dictionaryLocal =
 	JSON.parse(localStorage.getItem(storageName)) || dictionary;
 Object.size = function (obj) {
@@ -44,7 +43,6 @@ window.onload = () => {
 		rus.value = "";
 		ukr.value = "";
 	};
-	draggableFn();
 };
 
 function addToLocalStorage(nameStorage, key, value) {
@@ -58,6 +56,12 @@ function addToLocalStorage(nameStorage, key, value) {
 	localStorage.setItem(nameStorage, dictionaryObj);
 }
 
+function isShowCopyBtn() {
+	if (document.getElementById("table")) {
+		copyButton.style.display = "inline-block";
+	}
+}
+
 buttonSubmit.addEventListener("click", (e) => {
 	e.preventDefault();
 	let correctTable = deleteTrash(inputTable.value);
@@ -69,6 +73,8 @@ buttonSubmit.addEventListener("click", (e) => {
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
 	copyText(correctTable);
+	draggableFn();
+	isShowCopyBtn();
 });
 
 buttonTranslate.addEventListener("click", (e) => {
@@ -79,6 +85,7 @@ buttonTranslate.addEventListener("click", (e) => {
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
 	copyText(correctTable);
+	draggableFn();
 });
 
 showRefresh.addEventListener("click", () => {

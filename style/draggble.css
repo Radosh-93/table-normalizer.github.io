@@ -6,12 +6,7 @@
 	box-shadow: 0px 0px 10px 8px rgba(0, 0, 0, 0.1);
 }
 .draggable-table .draggable-table__drag {
-	font-size: 0.95em;
-	font-weight: lighter;
-	text-transform: capitalize;
 	position: absolute;
-	width: 100%;
-	text-indent: 50px;
 	border: 1px solid #f1f1f1;
 	z-index: 10;
 	cursor: grabbing;
