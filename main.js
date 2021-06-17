@@ -136,7 +136,7 @@ copyButton.addEventListener("click", () => {
 });
 
 function deleteTrash(text) {
-	const regExForAttr = /\s?((class|style|id)=".+?")/g;
+	const regExForAttr = /\s?((class|style|id|data.*?)=".+?")/g;
 	const regExForA = /<a.*?>(.+)<\/.*?a>/g;
 	const regExForStrong = /<strong.*?>(.+)<\/.*?strong>/g;
 	//Delete attributes
