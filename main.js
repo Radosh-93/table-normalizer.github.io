@@ -73,7 +73,7 @@ buttonSubmit.addEventListener("click", (e) => {
 	resultField.innerHTML = correctTable;
 	outputTable.value = correctTable;
 	copyText(correctTable);
-	draggableFn();
+	draggableFn(refreshOutput);
 	isShowCopyBtn();
 });
 
@@ -233,4 +233,8 @@ function translateToUA(text) {
 	});
 	return translateArr.join(" ");
 }
-//translateToUA("Some") //?
+function refreshOutput() {
+	const tableOutput = document.getElementById("table-output");
+	const result = document.getElementById("result");
+	tableOutput.value = result.innerHTML;
+}
