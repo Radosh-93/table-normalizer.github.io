@@ -1,4 +1,3 @@
-import { dictionary } from "./data.js";
 import { draggableFn } from "./js/draggable.js";
 const storageName = "dictionary";
 const inputTable = document.getElementById("table-input");
@@ -13,8 +12,7 @@ const refreshBtn = document.getElementById("refresh-btn");
 const refreshField = document.getElementById("refresh-field");
 const downloadBtn = document.getElementById("download-btn");
 const copyButton = document.getElementById("copy-button");
-let dictionaryLocal =
-	JSON.parse(localStorage.getItem(storageName)) || dictionary;
+
 Object.size = function (obj) {
 	var size = 0,
 		key;
@@ -24,26 +22,33 @@ Object.size = function (obj) {
 	}
 	return size;
 };
+let dictionaryLocal = null;
+let dictionary = null;
+getDictionary().then((res) => {
+	console.log(res);
+	dictionary = res;
+	dictionaryLocal = JSON.parse(localStorage.getItem(storageName)) || dictionary;
 
-window.onload = () => {
-	const objFromLocStorage = JSON.parse(localStorage.getItem(storageName));
-	const isAdd = Object.size(dictionary) > Object.size(objFromLocStorage);
+	window.onload = () => {
+		const objFromLocStorage = JSON.parse(localStorage.getItem(storageName));
+		const isAdd = Object.size(dictionary) > Object.size(objFromLocStorage);
 
-	if (localStorage.getItem(storageName) === null || isAdd) {
-		localStorage.setItem(storageName, JSON.stringify(dictionary));
-		alert("localStorage замінено");
-	}
-	addWordsForm.onsubmit = (e) => {
-		e.preventDefault();
-		const [rus, ukr] = e.target;
-		const rusVal = rus.value.toLowerCase();
-		const urkVal = ukr.value.toLowerCase();
-		console.log(rusVal, urkVal);
-		addToLocalStorage(storageName, rusVal, urkVal);
-		rus.value = "";
-		ukr.value = "";
+		if (localStorage.getItem(storageName) === null || isAdd) {
+			localStorage.setItem(storageName, JSON.stringify(dictionary));
+			alert("localStorage замінено");
+		}
+		addWordsForm.onsubmit = (e) => {
+			e.preventDefault();
+			const [rus, ukr] = e.target;
+			const rusVal = rus.value.toLowerCase();
+			const urkVal = ukr.value.toLowerCase();
+			console.log(rusVal, urkVal);
+			addToLocalStorage(storageName, rusVal, urkVal);
+			rus.value = "";
+			ukr.value = "";
+		};
 	};
-};
+});
 
 function addToLocalStorage(nameStorage, key, value) {
 	let dictionaryObj = JSON.parse(localStorage.getItem(nameStorage));
@@ -240,4 +245,10 @@ function refreshOutput() {
 	const tableOutput = document.getElementById("table-output");
 	const result = document.getElementById("result");
 	tableOutput.value = result.innerHTML;
+}
+
+async function getDictionary() {
+	const response = await fetch("./data.json");
+	const dataJson = await response.json();
+	return dataJson;
 }
